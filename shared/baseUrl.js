@@ -1,0 +1,1 @@
+export const baseUrl = 'https://thienth.thienhoang19.repl.co/';
