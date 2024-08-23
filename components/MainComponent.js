@@ -61,7 +61,7 @@ function ReservationNavigatorScreen() {
       }}>
       <ReservationNavigator.Screen name='Reservation' component={Reservation}
         options={({ navigation }) => ({
-          headerTitle: 'Reserve Table',
+          headerTitle: 'Order Chicken',
           headerLeft: () => (<Icon name='menu' size={36} color='#fff' onPress={() => navigation.toggleDrawer()} />)
         })} />
     </ReservationNavigator.Navigator>
@@ -209,7 +209,7 @@ function MainNavigatorScreen() {
       }} />
       <MainNavigator.Screen name='ReservationScreen' component={ReservationNavigatorScreen}
         options={{
-          title: 'Reserve Table', headerShown: false,
+          title: 'Order Chicken', headerShown: false,
           drawerIcon: ({ focused, size }) => (<Icon name='cutlery' type='font-awesome' size={size} color={focused ? '#7cc' : '#ccc'} />)
         }} />
       <MainNavigator.Screen name='FavoritesScreen' component={FavoritesNavigatorScreen}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, Text, Switch, Button, Alert } from 'react-native';
+import { StyleSheet, View, ScrollView, Text, Switch, Button, Alert, TextInput } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { Picker } from '@react-native-picker/picker';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
@@ -13,78 +13,119 @@ class Reservation extends Component {
     super(props);
     this.state = {
       guests: 1,
-      smoking: false,
+      selectedChicken: 'Gà nướng muối ớt',
       date: new Date(),
       showDatePicker: false,
+      showCustomGuestsInput: false,
+      customGuests: '',
     };
   }
 
   render() {
+    const { guests, showCustomGuestsInput, customGuests } = this.state;
+    const showTextInput = guests === 7 && showCustomGuestsInput;
+  
     return (
-      <Animatable.View animation='zoomIn' duration={2000}> 
-      <ScrollView>
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Number of Guests</Text>
-          <Picker
-            style={styles.formItem}
-            selectedValue={this.state.guests}
-            onValueChange={(value) => this.setState({ guests: value })}
-          >
-            <Picker.Item label='1' value={1} />
-            <Picker.Item label='2' value={2} />
-            <Picker.Item label='3' value={3} />
-            <Picker.Item label='4' value={4} />
-            <Picker.Item label='5' value={5} />
-            <Picker.Item label='6' value={6} />
-          </Picker>
-        </View>
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Smoking/No-Smoking?</Text>
-          <Switch
-            style={styles.formItem}
-            value={this.state.smoking}
-            onValueChange={(value) => this.setState({ smoking: value })}
-          />
-        </View>
-        <View style={styles.formRow}>
-          <Text style={styles.formLabel}>Date and Time</Text>
-          <Icon
-            name='schedule'
-            size={36}
-            onPress={() => this.setState({ showDatePicker: true })}
-          />
-          <Text style={{ marginLeft: 10 }}>
-            {format(this.state.date, 'dd/MM/yyyy - HH:mm')}
-          </Text>
-          <DateTimePickerModal
-            mode='datetime'
-            isVisible={this.state.showDatePicker}
-            onConfirm={this.handleDateConfirm}
-            onCancel={this.hideDatePicker}
-          />
-        </View>
-        <View style={styles.formRow}>
-          <Button title='Reserve' color='#7cc' onPress={this.handleReservation} />
-        </View>
-      </ScrollView>
-      </Animatable.View> 
+      <Animatable.View animation='zoomIn' duration={2000}>
+        <ScrollView>
+          <View style={styles.formRow}>
+            <Text style={styles.formLabel}>Số lượng gà muốn đặt</Text>
+            {guests !== 7 ? (
+              <Picker
+                style={styles.formItem}
+                selectedValue={guests}
+                onValueChange={(value) => this.setState({ guests: value })}
+              >
+                <Picker.Item label='1' value={1} />
+                <Picker.Item label='2' value={2} />
+                <Picker.Item label='3' value={3} />
+                <Picker.Item label='4' value={4} />
+                <Picker.Item label='5' value={5} />
+                <Picker.Item label='6' value={6} />
+                <Picker.Item label='Số khác' value={7} />
+              </Picker>
+            ) : (
+              <View style={styles.customGuestsContainer}>
+                {showTextInput ? (
+                  <TextInput
+                    style={styles.customGuestsInput}
+                    value={customGuests}
+                    onChangeText={(text) => this.setState({ customGuests: text })}
+                    keyboardType='numeric'
+                    onBlur={() => this.setState({ showCustomGuestsInput: false })}
+                  />
+                ) : (
+                  <Text
+                    style={styles.customGuestsText}
+                    onPress={() => this.setState({ showCustomGuestsInput: true })}
+                  >
+                    {customGuests ? customGuests : 'Nhập số lượng'}
+                  </Text>
+                )}
+              </View>
+            )}
+          </View>
+  
+          <View style={styles.formRow}>
+            <Text style={styles.formLabel}>Chọn món gà</Text>
+            <Picker
+              style={{ ...styles.formItem1, width: '70%' }}
+              selectedValue={this.state.selectedChicken}
+              onValueChange={(value) => this.setState({ selectedChicken: value })}
+            >
+              <Picker.Item label='Gà nướng muối ớt' value='Gà nướng muối ớt' style={{ flex: 1 }} />
+              <Picker.Item label='Gà kho gừng' value='Gà kho gừng' style={{ flex: 1 }} />
+              <Picker.Item label='Gà chiên giòn' value='Gà chiên giòn' style={{ flex: 1 }} />
+              <Picker.Item label='Canh gà hầm thuốc bắc' value='Canh gà hầm thuốc bắc' style={{ flex: 1 }} />
+            </Picker>
+
+          </View>
+          <View style={styles.formRow}>
+            <Text style={styles.formLabel}>Ngày và giờ</Text>
+            <Icon
+              name='schedule'
+              size={36}
+              onPress={() => this.setState({ showDatePicker: true })}
+            />
+            <Text style={{ marginLeft: 10 }}>
+              {format(this.state.date, 'dd/MM/yyyy - HH:mm')}
+            </Text>
+            <DateTimePickerModal
+              mode='datetime'
+              isVisible={this.state.showDatePicker}
+              onConfirm={this.handleDateConfirm}
+              onCancel={this.hideDatePicker}
+            />
+          </View>
+          <View style={styles.formRow}>
+            <Button title='Đặt món gà' color='#7cc' onPress={this.handleReservation} />
+          </View>
+        </ScrollView>
+      </Animatable.View>
     );
   }
 
   handleReservation = () => {
+    const { guests, selectedChicken, date, customGuests } = this.state;
+    const numGuests = guests !== 7 ? guests : parseInt(customGuests);
     Alert.alert(
-      'Your Reservation OK?',
-      'Number of Guestes: ' + this.state.guests + '\nSmoking? ' + this.state.smoking + '\nDate and Time: ' + this.state.date.toISOString(),
+      'Xác nhận đặt gà',
+      'Số lượng gà: ' + numGuests + '\nMón gà: ' + selectedChicken + '\nNgày và giờ: ' + date.toISOString(),
       [
-        { text: 'Cancel', onPress: this.resetForm },
-        { text: 'OK', onPress: () => {
-          this.addReservationToCalendar(this.state.date);
-          this.presentLocalNotification(this.state.date);
-          this.resetForm();
-        }},
+        { text: 'Hủy', onPress: this.resetForm },
+        {
+          text: 'OK',
+          onPress: () => {
+            this.addReservationToCalendar(date);
+            this.presentLocalNotification(date);
+            this.resetForm();
+          }
+        },
       ]
     );
   }
+  
+
   async addReservationToCalendar(date) {
     const { status } = await Calendar.requestCalendarPermissionsAsync();
     if (status === 'granted') {
@@ -100,15 +141,16 @@ class Reservation extends Component {
         accessLevel: Calendar.CalendarAccessLevel.OWNER,
       });
       const eventId = await Calendar.createEventAsync(newCalendarID, {
-        title: 'Confusion Table Reservation',
-        startDate: date,
-        endDate: new Date(date.getTime() + 2 * 60 * 60 * 1000),
-        timeZone: 'Asia/Hong_Kong',
-        location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        title: 'Xác nhận đặt gà',
+      startDate: date,
+      endDate: new Date(date.getTime() + 2 * 60 * 60 * 1000),
+      timeZone: 'Asia/Ho_Chi_Minh', // Sửa thành múi giờ của Việt Nam
+      location: 'Quận 12, TP. Hồ Chí Minh' // Sửa thành địa chỉ ở Quận 12, TP. Hồ Chí Minh
       });
-      alert('Your new event ID is: ' + eventId);
+      alert('Mã sự kiện mới của bạn là: ' + eventId);
     }
   }
+
   async presentLocalNotification(date) {
     const { status } = await Notifications.requestPermissionsAsync();
     if (status === 'granted') {
@@ -117,8 +159,8 @@ class Reservation extends Component {
       });
       Notifications.scheduleNotificationAsync({
         content: {
-          title: 'Your Reservation',
-          body: 'Reservation for ' + date + ' requested',
+          title: 'Đặt bàn của bạn',
+          body: 'Yêu cầu đặt bàn ngày ' + format(date, 'dd/MM/yyyy HH:mm'),
           sound: true,
           vibrate: true
         },
@@ -130,7 +172,7 @@ class Reservation extends Component {
   resetForm = () => {
     this.setState({
       guests: 1,
-      smoking: false,
+      selectedChicken: 'Gà nướng muối ớt',
       date: new Date(),
       showDatePicker: false,
     });
@@ -149,6 +191,26 @@ const styles = StyleSheet.create({
   formRow: { alignItems: 'center', justifyContent: 'center', flex: 1, flexDirection: 'row', margin: 20 },
   formLabel: { fontSize: 18, flex: 2 },
   formItem: { flex: 1 },
+  formItem1: { flex: 0 },
+  customGuestsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginLeft: 10,
+  },
+  customGuestsText: {
+    fontSize: 16,
+    color: '#888',
+    textDecorationLine: 'underline',
+    marginRight: 10,
+  },
+  customGuestsInput: {
+    flex: 1,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    padding: 10,
+    marginRight: 10,
+  },
 });
 
 export default Reservation;

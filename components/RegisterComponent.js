@@ -9,6 +9,7 @@ class Register extends Component {
     super(props);
     this.state = {
       imageUrl: baseUrl + 'images/logo.png',
+      
       username: '',
       password: ''
     }

@@ -18,12 +18,12 @@ class RenderSlider extends Component {
   render() {
     const images = [
       baseUrl + this.props.dish.image,
-      baseUrl + 'images/buffet.png',
-      baseUrl + 'images/logo.png'
+      
     ];
     return (
       <Card onLayout={this.onLayout}>
         <SliderBox images={images} parentWidth={this.state.width - 30} />
+        
       </Card>
     );
   }

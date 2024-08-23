@@ -9,15 +9,15 @@ class Contact extends Component {
     return (
       <Animatable.View animation='fadeInDown' duration={2000} delay={1000}>
       <Card>
-        <Card.Title>Contact Information</Card.Title>
+        <Card.Title>Thông Tin liên lạc</Card.Title>
         <Card.Divider />
-        <Text style={{ margin: 10 }}>121, Clear Water Bay Road</Text>
-        <Text style={{ margin: 10 }}>Clear Water Bay, Kowloon</Text>
-        <Text style={{ margin: 10 }}>HONG KONG</Text>
+        <Text style={{ margin: 10 }}>đường Quang Trung</Text>
+        <Text style={{ margin: 10 }}>Quận 12</Text>
+        <Text style={{ margin: 10 }}>Tp Hồ Chí Minh</Text>
         <Text style={{ margin: 10 }}>Tel: +852 1234 5678</Text>
         <Text style={{ margin: 10 }}>Fax: +852 8765 4321</Text>
-        <Text style={{ margin: 10 }}>Email: confusion@food.net</Text>
-        <Button title=' Compose Email' buttonStyle={{ backgroundColor: '#7cc' }}
+        <Text style={{ margin: 10 }}>Email: odaycoga@food.net</Text>
+        <Button title=' Compose Email' buttonStyle={{ backgroundColor: '#990000' }}
             icon={<Icon name='envelope-o' type='font-awesome' color='white' />}
             onPress={this.composeMail} />
       </Card>

@@ -12,7 +12,7 @@ class RenderHistory extends Component {
     if (this.props.isLoading) {
       return (
         <Card>
-          <Card.Title>Corporate Leadership</Card.Title>
+          <Card.Title>Điều Hành Doanh Nghiệp</Card.Title>
           <Card.Divider />
           <Loading />
         </Card>
@@ -20,7 +20,7 @@ class RenderHistory extends Component {
     } else if (this.props.errMess) {
       return (
         <Card>
-          <Card.Title>Corporate Leadership</Card.Title>
+          <Card.Title>Điều Hành Doanh Nghiệp</Card.Title>
           <Card.Divider />
           <Text>{this.props.errMess}</Text>
         </Card>
@@ -29,11 +29,11 @@ class RenderHistory extends Component {
 
     return (
       <Card>
-        <Card.Title>Our History</Card.Title>
-        <Card.Divider />
-        <Text style={{ margin: 10 }}>Started in 2010, Ristorante con Fusion quickly established itself as a culinary icon par excellence in Hong Kong. With its unique brand of world fusion cuisine that can be found nowhere else, it enjoys patronage from the A-list clientele in Hong Kong.  Featuring four of the best three-star Michelin chefs in the world, you never know what will arrive on your plate the next time you visit us.</Text>
-        <Text style={{ margin: 10 }}>The restaurant traces its humble beginnings to The Frying Pan, a successful chain started by our CEO, Mr. Peter Pan, that featured for the first time the worlds best cuisines in a pan.</Text>
-      </Card>
+  <Card.Title>Lịch sử của chúng tôi</Card.Title>
+  <Card.Divider />
+  <Text style={{ margin: 10 }}>Bắt đầu từ năm 2010, Ristorante con Fusion nhanh chóng khẳng định vị thế của mình là một biểu tượng ẩm thực xuất sắc tại Hồng Kông. Với dòng ẩm thực kết hợp văn hóa độc đáo, không thể tìm thấy ở bất kỳ nơi nào khác, nhà hàng thu hút sự ủng hộ từ khách hàng danh tiếng nhất tại Hồng Kông. Với sự góp mặt của bốn đầu bếp ba sao Michelin hàng đầu thế giới, bạn không bao giờ biết món gì sẽ xuất hiện trên đĩa của bạn khi bạn đến thăm chúng tôi lần sau.</Text>
+  <Text style={{ margin: 10 }}>Nhà hàng bắt đầu từ những ngày đầu khi The Frying Pan, một chuỗi nhà hàng thành công do CEO chúng tôi, ông Tom, sáng lập, lần đầu tiên giới thiệu những món ăn tốt nhất thế giới trong một cái chảo.</Text>
+</Card>
     );
     }
   }
@@ -43,7 +43,7 @@ class RenderLeadership extends Component {
   render() {
     return (
       <Card>
-        <Card.Title>Corporate Leadership</Card.Title>
+        <Card.Title>Điều Hành Doanh Nghiệp</Card.Title>
         <Card.Divider />
         <FlatList data={this.props.leaders}
           renderItem={({ item, index }) => this.renderLeaderItem(item, index)}
